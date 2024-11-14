@@ -1,1 +1,4 @@
-# angular-from-scratch-presentation
+# Angular from scratch presentation
+
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.4.
+
