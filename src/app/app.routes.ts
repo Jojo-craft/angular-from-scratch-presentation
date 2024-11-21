@@ -1,15 +1,16 @@
 import { Routes } from '@angular/router';
+import {HomeComponent} from "@SRC/app/home/home.component";
 
 export function guard(): boolean {
   return true;
 }
 
 export const MAIN_ROUTES: Routes = [
-  // {
-  //   path: 'todo-list',
-  //   // sans lazy-loading
-  //   component: TodoListComponent,
-  // },
+  {
+    path: 'home',
+    // sans lazy-loading
+    component: HomeComponent,
+  },
   {
     path: 'todo-list',
     // avec lazy-loading d'un composant

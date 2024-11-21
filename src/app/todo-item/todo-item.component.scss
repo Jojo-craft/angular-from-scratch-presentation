@@ -1,4 +1,15 @@
 .form {
   display: flex;
   flex-direction: column;
+
+  background: lightblue;
+  padding: 5px;
+  margin: 10px;
+
+  height: auto;
+  width: 200px;
+}
+
+h4 {
+  margin: 0px;
 }

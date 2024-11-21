@@ -10,43 +10,27 @@ import {finalize} from "rxjs";
     TodoItemComponent
   ],
   template: `
-    <div>
-      {{ count() }}
-      <button (click)="onClick()">++</button>
-      {{ doubleCount() }}
-    </div>
+    <h3>Todo list</h3>
 
     @if (isLoading()) {
       LOADING...
     } @else {
-      @for (item of _items; track item.title) {
-        <li>
-          <app-todo-item [item]="item" (saveEvent)="onSave($event)" />
-        </li>
+      @for (item of items; track item.title) {
+        <app-todo-item [item]="item" (saveEvent)="onSave($event)"/>
       }
     }
   `,
   styleUrl: './todo-list.component.scss'
 })
 export class TodoListComponent implements OnInit {
-
-  count = signal(0);
-
-  doubleCount: Signal<number> = computed(() => {
-    return this.count() * 2;
-  });
-
-
-
-
   isLoading = signal(false);
+  items: TodoListItem[];
 
   private _repository: TodoListRepository = inject(TodoListRepository);
 
-  _items: TodoListItem[];
 
   constructor() {
-    this._items = [];
+    this.items = [];
   }
 
   ngOnInit(): void {
@@ -60,19 +44,15 @@ export class TodoListComponent implements OnInit {
       )
       .subscribe({
         next: (items: TodoListItem[]) => {
-          this._items = items;
+          this.items = items;
         },
         error: () => {
-          // TODO : gestion error
+          // Gestion des erreurs ici
         },
       });
   }
 
   onSave($event: TodoListItem) {
     console.log('Update todo item : ', $event);
-  }
-
-  onClick(): void {
-    this.count.update((value) => value + 1)
   }
 }

@@ -10,7 +10,7 @@ import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/
   ],
   template: `
     <form [formGroup]="_form" (ngSubmit)="onSubmit()" class="form">
-      <label>{{ item().title }}</label>
+      <h4>{{ item().title }}</h4>
 
       <label for="description">Description</label>
       <input formControlName="description">
@@ -36,7 +36,7 @@ export class TodoItemComponent {
       const item = this.item();
 
       untracked(() => {
-        //
+        // effect() ne sera pas déclenché si un autre signal est utilisé dans ce scope et que ce signal change
         this._form.setValue({
           description: item.description,
         })
