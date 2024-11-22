@@ -1,7 +1,7 @@
-import {Component, computed, inject, OnInit, Signal, signal, WritableSignal} from '@angular/core';
-import {TodoListItem, TodoListRepository} from "@SRC/app/todo-list-repository";
+import {Component, computed, inject, OnInit} from '@angular/core';
+import {TodoListItem} from "@SRC/app/todo-list-repository";
 import {TodoItemComponent} from "@SRC/app/todo-item/todo-item.component";
-import {finalize} from "rxjs";
+import {TodoListFacade} from "@SRC/app/todo-list-facade";
 
 @Component({
   selector: 'app-todo-list',
@@ -15,41 +15,29 @@ import {finalize} from "rxjs";
     @if (isLoading()) {
       LOADING...
     } @else {
-      @for (item of items; track item.title) {
+      @for (item of items(); track item.title) {
         <app-todo-item [item]="item" (saveEvent)="onSave($event)"/>
+      } @empty {
+        EMPTY !
       }
     }
   `,
   styleUrl: './todo-list.component.scss'
 })
 export class TodoListComponent implements OnInit {
-  isLoading = signal(false);
-  items: TodoListItem[];
 
-  private _repository: TodoListRepository = inject(TodoListRepository);
+  isLoading = computed(() => {
+    return this._facade.isLoading();
+  });
 
+  items = computed(() => {
+    return this._facade.todoItems();
+  });
 
-  constructor() {
-    this.items = [];
-  }
+  private _facade: TodoListFacade = inject(TodoListFacade);
 
   ngOnInit(): void {
-    this.isLoading.set(true);
-
-    this._repository.getItems()
-      .pipe(
-        finalize(() => {
-          this.isLoading.set(false);
-        }),
-      )
-      .subscribe({
-        next: (items: TodoListItem[]) => {
-          this.items = items;
-        },
-        error: () => {
-          // Gestion des erreurs ici
-        },
-      });
+    this._facade.loadTodoItems();
   }
 
   onSave($event: TodoListItem) {

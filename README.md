@@ -162,3 +162,12 @@ effect((): void => {
 ```
 
 
+## Reactive programming
+
+La programmation réactive est une notion qui vient du design pattern [Observer](https://refactoring.guru/design-patterns/observer).
+L'idée principale, c'est d'avoir des composants qui réagissent simplement à des "évènements" asynchrones.
+Plutôt que d'attendre le retour d'une méthode, ou de gérer les mécanismes d'appel async directement dans le composant, avec tout ce qui vient avec comme complexité liée à la gestion des erreurs, ...
+
+Avant, je faisais cela avec les "observables" de [RxJs](https://rxjs.dev/), mais maintenant, avec la puissance des [Signals](https://angular.dev/guide/signals) d'Angular, on peut faire cela beaucoup plus simplement avec une DX vraiment top !
+
+La programmation réactive rend les composants de "vue" plus simples, plus lisibles avec moins de code.

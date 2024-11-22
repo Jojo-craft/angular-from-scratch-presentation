@@ -1,4 +1,4 @@
-import {Component, effect, EventEmitter, input, Input, OnInit, output, Output, untracked} from '@angular/core';
+import {Component, effect, input, output, untracked} from '@angular/core';
 import {TodoListItem} from "@SRC/app/todo-list-repository";
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 
@@ -9,13 +9,13 @@ import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/
     ReactiveFormsModule
   ],
   template: `
-    <form [formGroup]="_form" (ngSubmit)="onSubmit()" class="form">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form">
       <h4>{{ item().title }}</h4>
 
       <label for="description">Description</label>
       <input formControlName="description">
 
-      <button type="submit" [disabled]="!_form.valid">Save</button>
+      <button type="submit" [disabled]="!form.valid">Save</button>
     </form>
   `,
   styleUrl: './todo-item.component.scss'
@@ -27,7 +27,7 @@ export class TodoItemComponent {
   // @Output() saveEvent: EventEmitter<TodoListItem> = new EventEmitter();
   saveEvent = output<TodoListItem>();
 
-  _form = new FormGroup({
+  form = new FormGroup({
     description: new FormControl<string>('', [Validators.required, Validators.maxLength(20)]),
   })
 
@@ -37,30 +37,24 @@ export class TodoItemComponent {
 
       untracked(() => {
         // effect() ne sera pas déclenché si un autre signal est utilisé dans ce scope et que ce signal change
-        this._form.setValue({
+        this.form.setValue({
           description: item.description,
         })
       });
     });
   }
 
-  // ngOnInit(): void {
-  //   this._form.setValue({
-  //     description: this.item().description,
-  //   })
-  // }
-
   onSubmit(): void {
     console.log('save');
 
-    if (!this._form.value.description) {
+    if (!this.form.value.description) {
       console.log('erreur');
       return;
     }
 
     this.saveEvent.emit({
       title: this.item().title,
-      description: this._form.value.description
+      description: this.form.value.description
     });
   }
 }
