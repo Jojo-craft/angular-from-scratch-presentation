@@ -171,3 +171,5 @@ Plutôt que d'attendre le retour d'une méthode, ou de gérer les mécanismes d'
 Avant, je faisais cela avec les "observables" de [RxJs](https://rxjs.dev/), mais maintenant, avec la puissance des [Signals](https://angular.dev/guide/signals) d'Angular, on peut faire cela beaucoup plus simplement avec une DX vraiment top !
 
 La programmation réactive rend les composants de "vue" plus simples, plus lisibles avec moins de code.
+
+![reactive-programming](./reactive-programming.jpg)
